@@ -21,9 +21,9 @@ function handleRequest(req, res) {
         let htmlUrl = repository["html_url"];
         console.log(gitUrl);
         console.log(htmlUrl);
-        
-        let repository = findRepository(gitUrl);
-        console.log(repository);
+
+        let repo = findRepository(gitUrl);
+        console.log(repo);
     });
   }
   
