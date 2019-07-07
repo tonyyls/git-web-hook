@@ -16,12 +16,12 @@ function handleRequest(req, res) {
     req.on("end", () => {
         data = decodeURI(data);
         console.log(data.url);
+        const url = data.url;
+        let repository = findRepository(url);
+        console.log(repository);
     });
   }
-  const url = req.url;
-  console.log(req.url);
-  let repository = findRepository(url);
-  console.log(repository);
+  
   res.write("ok");
   res.end();
 }
