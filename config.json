@@ -1,0 +1,11 @@
+{
+    "port": "9000",
+    "repository": [
+        {
+            "url": "kkk",
+            "deployPath": "",
+            "cmd": "",
+            "secret": "yulongsheng$webhook@secret"
+        }
+    ]
+}
