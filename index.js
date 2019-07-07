@@ -16,6 +16,7 @@ function handleRequest(req, res) {
     req.on("end", () => {
         data = decodeURI(data);
         console.log(data.url);
+        console.log(data.head_commit);
         const url = data.url;
         let repository = findRepository(url);
         console.log(repository);
