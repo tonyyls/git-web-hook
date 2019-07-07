@@ -15,7 +15,7 @@ function handleRequest(req, res) {
 
     req.on("end", () => {
         data = decodeURI(data);
-        console.log(data);
+        console.log(data.url);
     });
   }
   const url = req.url;
