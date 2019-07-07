@@ -22,7 +22,7 @@ function handleRequest(req, res) {
   console.log(req.url);
   let repository = findRepository(url);
   console.log(repository);
-  res.write("ok");
+  res.write("ok ba lala");
   res.end();
 }
 
