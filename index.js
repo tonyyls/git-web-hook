@@ -15,11 +15,14 @@ function handleRequest(req, res) {
 
     req.on("end", () => {
         data = decodeURI(data);
-        console.log(data.url);
+        data = JSON.parse(data);
+        let repository = data.repository;
+        let gitUrl = repository["git_url"];
+        let htmlUrl = repository["html_url"];
+        console.log(gitUrl);
+        console.log(htmlUrl);
         
-        console.log(data.head_commit);
-        const url = data.url;
-        let repository = findRepository(url);
+        let repository = findRepository(gitUrl);
         console.log(repository);
     });
   }
