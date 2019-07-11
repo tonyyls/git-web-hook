@@ -26,17 +26,14 @@ function handleRequest(req, res) {
     req.on("data", chunk => {
       data += chunk;
     });
-    req.on("end", () => {
+    req.on("end", async () => {
       data = decodeURI(data);
       data = JSON.parse(data);
       let repo = findRepository(data.repository);
       if (repo) {
-        fetchRepo(repo)
-          .then(copyRepo(repo, queryOptions, contextPath))
-          .then(execCmd(repo))
-          .catch(err => {
-            console.error(err);
-          });
+        await fetchRepo(repo);
+        await copyRepo(repo, queryOptions, contextPath);
+        await execCmd(repo);
       }
       console.log(repo);
     });
@@ -66,7 +63,9 @@ async function fetchRepo(repo) {
       console.error(error);
     });
   } else {
-    return await git.clone(url, branch, localRepo).catch(error => {
+    return await git.clone(url, branch, localRepo).then(()=>{
+      console.log('clone finish');
+    }).catch(error => {
       console.error(error);
     });
   }
@@ -74,11 +73,11 @@ async function fetchRepo(repo) {
 
 // 从配置中找到对应的仓库
 function findRepository(repo) {
-  const gitUrl = repo["git_url"];
-  const htmlUrl = repo["html_url"];
+  const sshUrl = repo["ssh_url"];
+  const cloneUrl = repo["clone_url"];
   let result;
   config.repository.map(item => {
-    if (item.url == gitUrl || item.url == htmlUrl) {
+    if (item.url == sshUrl || item.url == cloneUrl) {
       result = item;
       return;
     }
@@ -106,25 +105,6 @@ async function copyRepo(repo, options, contextPath) {
 // 拷贝完成后将会在对应的目录下执行的脚本
 async function execCmd(repo) {
   // todo 
-}
-
-function parseUrlToObj(url) {
-  if(!url) return;
-  const reg = /(^http\w?):\/\/([\w.]+)([\w\/]+)\?([\w\=\&]+)/;
-  let regArr = reg.exec(url);
-  if(!regArr) return null;
-  let obj = {};
-  obj.protocol = regArr[1];
-  obj.host = regArr[2];
-  obj.path = regArr[3];
-  obj.hash = regArr[5];
-  let queryArr = regArr[4].split(/[=&]/);
-  let query = {};
-  for(let i = 0; i<queryArr.length; i+=2) {
-      query[queryArr[i]] = queryArr[i+1];
-  }
-  obj.query = query;
-  return obj;
 }
 
 const server = http.createServer(handleRequest);
