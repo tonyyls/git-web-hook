@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/tonyyls/git-web-hook#readme",
   "devDependencies": {
+    "fs-extra": "^8.1.0",
     "nodemon": "^1.19.1",
-    "querystring": "^0.2.0"
+    "query-string": "^6.8.1"
   }
 }
