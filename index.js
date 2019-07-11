@@ -3,8 +3,10 @@ const fs = require("fs-extra");
 const path = require("path");
 const http = require("http");
 const qs = require("query-string");
+const logger = require("./log.js");
 const git = require("./git.js");
 const config = require("./config.json");
+
 const port = config.port;
 const localRepo = path.join(config.localRepo);
 
@@ -17,9 +19,9 @@ if (!fs.existsSync(localRepo)) {
 function handleRequest(req, res) {
   // 考虑url后面带参数来支持更多特性
   const url = req.url;
-  const queryStr = url.substring(url.indexOf('?')+1);
+  const queryStr = url.substring(url.indexOf("?") + 1);
   const queryOptions = qs.parse(queryStr);
-  const contextPath = url.substring(0,url.indexOf('?'));
+  const contextPath = url.substring(0, url.indexOf("?"));
 
   if (req.method == "POST") {
     let data = "";
@@ -30,12 +32,13 @@ function handleRequest(req, res) {
       data = decodeURI(data);
       data = JSON.parse(data);
       let repo = findRepository(data.repository);
+      logger.info(repo);
       if (repo) {
         await fetchRepo(repo);
         await copyRepo(repo, queryOptions, contextPath);
         await execCmd(repo);
+        logger.info("Successfull.")
       }
-      console.log(repo);
     });
   }
   res.write("ok");
@@ -59,15 +62,23 @@ async function fetchRepo(repo) {
   const repoPath = getRepoLocalPath(repo);
   const branch = repo.branch || "";
   if (fs.existsSync(repoPath)) {
-    return await git.pull(repoPath).catch(error => {
-      console.error(error);
-    });
+    return await git
+      .pull(repoPath)
+      .then(() => {
+        logger.info("git pull filsh");
+      })
+      .catch(error => {
+        logger.error(error);
+      });
   } else {
-    return await git.clone(url, branch, localRepo).then(()=>{
-      console.log('clone finish');
-    }).catch(error => {
-      console.error(error);
-    });
+    return await git
+      .clone(url, branch, localRepo)
+      .then(() => {
+        logger.info("git clone finish");
+      })
+      .catch(error => {
+        logger.error(error);
+      });
   }
 }
 
@@ -94,20 +105,21 @@ async function copyRepo(repo, options, contextPath) {
   let deployPath = repo.deployPath;
   if (deployPath) {
     // 拼接上下文作为目录
-    deployPath = path.join(deployPath,contextPath);
-    if(!fs.existsSync(deployPath)){
+    deployPath = path.join(deployPath, contextPath);
+    if (!fs.existsSync(deployPath)) {
       fs.mkdirsSync(deployPath);
     }
+    logger.info(`copy ${repoPath} to ${deployPath}`);
     return fs.emptyDir(deployPath).then(fs.copy(repoPath, deployPath));
   }
 }
 
 // 拷贝完成后将会在对应的目录下执行的脚本
 async function execCmd(repo) {
-  // todo 
+  // todo
 }
 
 const server = http.createServer(handleRequest);
 server.listen(config.port, () => {
-  console.log(`WebHook Server running on port ${port}`);
+  logger.info(`WebHook Server running on port ${port}`);
 });

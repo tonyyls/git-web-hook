@@ -5,8 +5,7 @@
         {
             "url": "git@github.com:tonyyls/git-web-hook.git",
             "deployPath": "/Users/yulsh/Downloads/work",
-            "cmd": "",
-            "secret": "yulongsheng$webhook@secret"
+            "cmd": ""
         }
     ]
 }
