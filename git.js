@@ -10,8 +10,8 @@ let git = {};
  * @param {string} localRepo 本地仓库的克隆目录
  */
 git.clone = async function(url, branch, localRepo) {
-  let command = `cd ${localRepo} && git clone ${url} ${ branch != "" ? `-b ${branch}` : "" }`;
-  await exec(command);
+  let command = `git clone ${url} ${ branch != "" ? `-b ${branch}` : ""}`;
+  await exec(command, { cwd: localRepo });
 };
 
 /**
@@ -19,8 +19,8 @@ git.clone = async function(url, branch, localRepo) {
  * @param {string} 仓库在本地的物理路径
  */
 git.pull = async function(repoPath) {
-   let command = `cd ${repoPath} && git pull`;
-   await exec(command);
+  let command = `git pull`;
+  await exec(command, { cwd: localRepo });
 };
 
 module.exports = git;
