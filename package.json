@@ -4,7 +4,6 @@
   "description": "基于github/gitlab的webhook实现自动部署工具",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./index.js"
   },
   "repository": {

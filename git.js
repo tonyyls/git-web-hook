@@ -1,6 +1,6 @@
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
-const logger = require("./log.js");
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const logger = require('./log.js');
 
 let git = {};
 
@@ -12,7 +12,7 @@ let git = {};
  */
 git.clone = async function(url, branch, localRepo) {
   logger.info(`cloning repo: ${url}`);
-  let command = `git clone ${url} ${ branch != "" ? `-b ${branch}` : ""}`;
+  let command = `git clone ${url} ${ branch != '' ? `-b ${branch}` : ''}`;
   await exec(command, { cwd: localRepo });
 };
 
