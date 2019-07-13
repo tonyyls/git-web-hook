@@ -3,12 +3,8 @@
     "localRepo": "/Users/yulsh/Downloads/git-repo",
     "repository": [
         {
-            "url": "git@github.com:tonyyls/git-web-hook.git",
-            "deployPath": "/Users/yulsh/Downloads/work"
-        },
-        {
             "url": "git@gitlab.bingosoft.net:paas-doc/dev-platform-guide-source.git",
-            "deployPath": "/Users/yulsh/Downloads/work-one"
+            "deployPath": "/Users/yulsh/Downloads/work"
         }
     ]
 }
