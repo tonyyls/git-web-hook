@@ -1,7 +1,7 @@
-// 安装成windows服务
+// 安装windows服务
 const package = require('../package.json');
 const path = require('path');
-let service = require('node-windows').Service;
+const service = require('node-windows').Service;
 
 let svc = new service({
   name: package.name,

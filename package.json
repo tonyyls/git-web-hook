@@ -10,17 +10,23 @@
     "type": "git",
     "url": "git+https://github.com/tonyyls/git-web-hook.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "git",
+    "webhook",
+    "nodejs"
+  ],
+  "author": "yulsh",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tonyyls/git-web-hook/issues"
   },
   "homepage": "https://github.com/tonyyls/git-web-hook#readme",
   "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
     "fs-extra": "^8.1.0",
     "log4js": "^4.5.0",
-    "nodemon": "^1.19.1",
     "query-string": "^6.8.1"
   }
 }
