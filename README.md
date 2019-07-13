@@ -19,7 +19,7 @@
 3. 把原始文档以及编译出的静态资源(_book)一并提交到仓库中(触发 Webhook Push Event)；
 4. 完成文档更新；
 
-抽象一下，这是一个自动化部署的过程，使用`DevOps`平台显得有点重，于是,基于`nodejs`写了个轻量级的 `git-web-hook` 来简化这个部署流程。期望达到的效果是：设置好部署规则的前提下，只需要提交代码，剩下的事情交给工具来做。
+抽象一下，这是一个自动化部署的过程，使用 `Jenkins`等开源产品显得有点重，于是,基于`nodejs`写了个轻量级的 `git-web-hook` 来简化部署流程。期望达到的效果：设置好部署规则的前提下，只需要提交代码，剩下的事情交给工具来做。
 
 # 特性
 * 支持 github & gitlab;
@@ -62,7 +62,7 @@ cd git-web-hook
 * deployPath: 目标部署位置
 
 
-## windows service
+## windows
 在 windows 下部署，需要额外安装 `node-windows`。进入到仓库目录：
 
 ```bash
@@ -93,7 +93,7 @@ node deploy/uninstall.js
 
 
 
-## mac / linux service
+## mac / linux
 
 
 在mac或者linux下，可以选择使用 [forever](https://www.npmjs.com/package/forever) 或者 [pm2](https://www.npmjs.com/package/pm2) 来实现在后台运行 nodejs 程序。
@@ -129,10 +129,9 @@ forever list
 
 ![](./images/004.png)
 
-**Payload URL: **
+Payload URL:
 
-事件触发的请求地址。该地址可以指定 上下文地址以及查询参数，服务端接收到后将会做出相应处理。（POST请求）
-
+PUSH 事件触发后的请求地址，该地址可以指定`上下文地址`以及`查询参数`，服务端接收到后将会做出相应处理。
 举个例子:  http://10.201.76.142:9000/root/website?dir=_book
 
 其中`root/website` 是部署的上下文路径，会拼接到上面的 config.json 的 `deployPath`中，最后部署路径: `/Users/yulsh/Downloads/dev-platform/root/website`。另外,`dir=_book`可以指定拷贝仓库的哪个目录，例如只拷贝`_book`目录的静态资源，如不设置将全部拷贝。
@@ -141,4 +140,10 @@ Content type: 设置为 application/json
 
 Secret: 设置请求密钥
 
+## gitlab 中配置webhook
 
+进入仓库主页 > Settings > Integrartions
+
+![](./images/005.png)
+
+其他配置与 github 类似。Enjoy!
