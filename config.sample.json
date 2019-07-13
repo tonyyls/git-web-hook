@@ -1,0 +1,10 @@
+{
+    "port": "9000",
+    "localRepo": "local/path/gitrepo",
+    "repository": [
+        {
+            "url": "remote/path/gitrepo",
+            "deployPath": "/Users/yulsh/Downloads/work"
+        }
+    ]
+}
