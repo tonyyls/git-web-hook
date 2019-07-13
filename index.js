@@ -48,7 +48,7 @@ function handleRequest(req, res) {
       let repo = findRepository(data.repository);
       logger.info(repo);
       if (repo) {
-        await fetchRepo(repo);
+        await fetchRepo(repo, queryOptions);
         await copyRepo(repo, queryOptions, contextPath);
         await execScript(repo);
         logger.info('Successfull.');
@@ -69,10 +69,10 @@ function getRepoLocalPath(repo) {
 }
 
 // pull 或者 clone 仓库资源
-async function fetchRepo(repo) {
+async function fetchRepo(repo, options) {
   const url = repo.url;
   const repoPath = getRepoLocalPath(repo);
-  const branch = repo.branch || '';
+  const branch = options.branch || repo.branch || '';
   if (fs.existsSync(repoPath)) {
     return await git
       .pull(repoPath)

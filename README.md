@@ -1,6 +1,6 @@
 # git-web-hook
 
-基于 github/gitlab webhook 实现自动化部署工具。
+基于 github/gitlab webhook 实现自动化部署。
 
 # 背景
 
@@ -24,6 +24,7 @@
 # 特性
 * 支持 github & gitlab;
 * 支持通过 url 自定义部署路径;
+* 支持指定分支；
 * 支持自定义资源拷贝路径；
 * 支持拷贝完成后执行相关脚本；(实现中)
 
@@ -132,9 +133,9 @@ forever list
 Payload URL:
 
 PUSH 事件触发后的请求地址，该地址可以指定`上下文地址`以及`查询参数`，服务端接收到后将会做出相应处理。
-举个例子:  http://10.201.76.142:9000/root/website?dir=_book
+举个例子:  http://10.201.76.142:9000/root/website?dir=_book&branch=dev
 
-其中`root/website` 是部署的上下文路径，会拼接到上面的 config.json 的 `deployPath`中，最后部署路径: `/Users/yulsh/Downloads/dev-platform/root/website`。另外,`dir=_book`可以指定拷贝仓库的哪个目录，例如只拷贝`_book`目录的静态资源，如不设置将全部拷贝。
+其中`root/website` 是部署的上下文路径，会拼接到上面的 config.json 的 `deployPath`中，最后部署路径: `/Users/yulsh/Downloads/dev-platform/root/website`。另外,`dir=_book`可以指定拷贝仓库的哪个目录，例如只拷贝`_book`目录的静态资源，如不设置将全部拷贝。`branch=dev`可以指定拉取哪个分支。
 
 Content type: 设置为 application/json
 
