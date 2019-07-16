@@ -88,7 +88,7 @@ node deploy/uninstall.js
 
 ```
 
-待安装成功后，可以在服务中看到真正运行的 `git-web-hook`
+待安装成功后，可以在服务中看到真正运行的 `git-web-hook`，建议配置成`管理员身份登陆`服务。
 
 ![](./images/001.png)
 

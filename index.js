@@ -77,7 +77,7 @@ async function fetchRepo(repo, options) {
     return await git
       .pull(repoPath)
       .then(() => {
-        logger.info('git pull filsh');
+        logger.info('git pull finish');
       })
       .catch(error => {
         logger.error(error);
