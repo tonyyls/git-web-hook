@@ -2,7 +2,9 @@
 const fs = require("fs-extra");
 const path = require("path");
 const http = require("http");
+const util = require("util");
 const qs = require("query-string");
+const exec = util.promisify(require("child_process").exec);
 const logger = require("./log.js");
 const git = require("./git.js");
 const config = require("./config.json");
@@ -58,7 +60,7 @@ function handleRequest(req, res) {
         await fetchRepo(repo, queryOptions);
         await copyRepo(repo, queryOptions, contextPath);
         await execScript(repo);
-        logger.info("Successful.");
+        logger.info("Finished.");
       }
     });
   }
@@ -150,6 +152,19 @@ async function copyRepo(repo, options, contextPath) {
 // 拷贝完成后将会在对应的目录下执行的脚本
 async function execScript(repo) {
   // todo 限制在某个目录执行脚本，否则很大安全隐患
+  let cmd = repo.command;
+  if (!cmd) return;
+  let options = {
+    cwd: repo.deployPath,
+    maxBuffer: 10 * 1024 * 1024,
+    windowsHide: true,
+  };
+  const { error, stdout, stderr } = await exec(cmd, options);
+  if (error) {
+    logger.error(`exec error: ${error} ${stderr}`);
+    return;
+  }
+  logger.info(stdout);
 }
 
 const server = http.createServer(handleRequest);

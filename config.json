@@ -5,7 +5,8 @@
     "repository": [
         {
             "url": "git@gitlab.bingosoft.net:paas-doc/dev-platform-guide-source.git",
-            "deployPath": "/Users/yulsh/Downloads/work"
+            "deployPath": "/Users/yulsh/Downloads/work",
+            "command": "echo hello"
         },
         {
             "url": "git@github.com:tonyyls/FDKnowledge.git",

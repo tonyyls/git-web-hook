@@ -26,9 +26,9 @@
 * 支持通过 url 自定义部署路径;
 * 支持指定分支；
 * 支持自定义资源拷贝路径；
-* 支持拷贝完成后执行相关脚本；(实现中)
+* 支持拷贝完成后执行相关脚本；
 
-假设您已经安装好了`git`并且配置好了`SSH-KEY`。
+假设您已经在服务器上安装好了`git`并且配置好了`SSH-KEY`。
 
 # 服务器部署
 该工具支持在 windows, linux, mac 下部署。在windows下建议安装成`windows 服务`，确保在系统注销重启后能够自动启动。
@@ -47,10 +47,12 @@ cd git-web-hook
 {
     "port": "9000", 
     "localRepo": "/Users/yulsh/Downloads/git-repo",
+    "secret": "testtoken",
     "repository": [
         {
             "url": "git@gitlab.bingosoft.net:paas-doc/dev-platform-guide-source.git",
-            "deployPath": "/Users/yulsh/Downloads/dev-platform"
+            "deployPath": "/Users/yulsh/Downloads/dev-platform",
+            "command": "echo hello"
         }
     ]
 }
@@ -61,7 +63,8 @@ cd git-web-hook
 * localRepo: 本地存放仓库代码的地方，当前工具将会从 github/gitlab 上拉取代码存放在此，之后按需拷贝到 `deployPath` 中
 * url: 需要对接 webhook 的仓库，支持SSH或者https
 * deployPath: 目标部署位置
-
+* secret: github/gitlab 上配置的token要和服务器的保持一致，否则会报401错误（没有权限）
+* command: 资源拷贝到部署目录后，将会在该目录下执行shell命令
 
 ## windows
 在 windows 下部署，需要额外安装 `node-windows`。进入到仓库目录：
@@ -139,7 +142,7 @@ PUSH 事件触发后的请求地址，该地址可以指定`上下文地址`以�
 
 Content type: 设置为 application/json
 
-Secret: 设置请求密钥
+Secret: 设置请求密钥token
 
 ## gitlab 中配置webhook
 

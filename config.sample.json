@@ -1,10 +1,12 @@
 {
     "port": "9000",
     "localRepo": "local/path/gitrepo",
+    "secret": "testtoken",
     "repository": [
         {
             "url": "remote/path/gitrepo",
-            "deployPath": "/Users/yulsh/Downloads/work"
+            "deployPath": "/Users/yulsh/Downloads/work",
+            "command": "echo hello"
         }
     ]
 }
