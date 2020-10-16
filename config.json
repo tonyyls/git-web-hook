@@ -1,9 +1,14 @@
 {
     "port": "9000",
     "localRepo": "/Users/yulsh/Downloads/git-repo",
+    "secret": "testtoken",
     "repository": [
         {
             "url": "git@gitlab.bingosoft.net:paas-doc/dev-platform-guide-source.git",
+            "deployPath": "/Users/yulsh/Downloads/work"
+        },
+        {
+            "url": "git@github.com:tonyyls/FDKnowledge.git",
             "deployPath": "/Users/yulsh/Downloads/work"
         }
     ]
