@@ -64,7 +64,7 @@ cd git-web-hook
 * url: 需要对接 webhook 的仓库，支持SSH或者https
 * deployPath: 目标部署位置
 * secret: github/gitlab 上配置的token要和服务器的保持一致，否则会报401错误（没有权限）
-* command: 资源拷贝到部署目录后，将会在该目录下执行shell命令
+* command: 拉完资源后，在资源目录执行shell命令，执行完成后才会拷贝到部署目录
 
 ## windows
 在 windows 下部署，需要额外安装 `node-windows`。进入到仓库目录：

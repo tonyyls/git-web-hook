@@ -57,9 +57,10 @@ function handleRequest(req, res) {
       let repo = findRepository(data.repository);
       logger.info(repo);
       if (repo) {
+        // 先拉取代码，之后执行脚本，最后把结果拷贝到对应的目录
         await fetchRepo(repo, queryOptions);
-        await copyRepo(repo, queryOptions, contextPath);
         await execScript(repo);
+        await copyRepo(repo, queryOptions, contextPath);
         logger.info("Finished.");
       }
     });
@@ -145,17 +146,20 @@ async function copyRepo(repo, options, contextPath) {
       fs.mkdirsSync(deployPath);
     }
     logger.info(`copy ${repoPath} to ${deployPath}`);
-    return fs.emptyDir(deployPath).then(fs.copy(repoPath, deployPath));
+    fs.emptyDir(deployPath).then(() => {
+      fs.copy(repoPath, deployPath).then(() => console.log('success!')).catch(err => console.error(err))
+    });
   }
 }
 
 // 拷贝完成后将会在对应的目录下执行的脚本
 async function execScript(repo) {
-  // todo 限制在某个目录执行脚本，否则很大安全隐患
+  // 只能在对应仓库下执行命令
   let cmd = repo.command;
   if (!cmd) return;
+  let repoPath = getRepoLocalPath(repo);
   let options = {
-    cwd: repo.deployPath,
+    cwd: repoPath,
     maxBuffer: 10 * 1024 * 1024,
     windowsHide: true,
   };
